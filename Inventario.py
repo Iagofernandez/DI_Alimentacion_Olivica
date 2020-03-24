@@ -82,7 +82,7 @@ class Inventario(Gtk.Window):
         self.cajaModificar.pack_start(self.txtDescripcion, True, True, 0)
         self.cajaModificar.pack_start(self.txtStock, True, True, 0)
         self.cajaModificar.pack_start(self.txtPrecio, True, True, 0)
-        self.cajaModificar.pack_start(self.cmbProveedores, True, True, 0)
+
         self.cajaModificar.pack_start(btnGuardar, True, True, 0)
         self.mainBox.add(self.cajaModificar)
 
@@ -100,7 +100,7 @@ class Inventario(Gtk.Window):
 
         builder.connect_signals(señales)
 
-        self.inital_show(self.ventana)
+        self.initial_show(self.ventana)
 
     def initial_show(self, ventana):
         ventana.show_all()
@@ -189,7 +189,7 @@ class Inventario(Gtk.Window):
             idPro = modelo[puntero][0]
             ##Conectamos con la base de datos
             try:
-                baseDatos = dbapi2.connect("BaseDeDatos.dat")
+                baseDatos = dbapi2.connect("BaseDatos.dat")
                 cursor = baseDatos.cursor()
                 cursor.execute("DELETE FROM productos WHERE id = '" + idPro + "'")
                 baseDatos.commit()
@@ -203,12 +203,8 @@ class Inventario(Gtk.Window):
                 baseDatos.close()
 
     def on_btnGenerarInventario_clicked(self, boton):
-        """Este metodo se usa para generar un informe con los productos de la tienda.
-            Se llama a la clase informeInventario que leera los datos de la base de datos y generara un PDF.
-                    :param boton: acceso al botton
-                    :return: None
-        """
+
         generarInventario()
 if __name__ == "__main__":
-        Inventario()
-        Gtk.main()
+    Inventario()
+    Gtk.main()

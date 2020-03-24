@@ -14,7 +14,7 @@ class CrearFactura(Gtk.Window):
 
         self.ventana = builder.get_object("Main")
 
-        cabeceira = Gtk.HeadrBar(title="Crear Factura")
+        cabeceira = Gtk.HeaderBar(title="Crear Factura")
         cabeceira.set_subtitle("Guardar y generar factura")
         cabeceira.props.show_close_button = True
 
@@ -23,18 +23,18 @@ class CrearFactura(Gtk.Window):
         self.direccion = builder.get_object("txtDireccion")
         self.telefono = builder.get_object("txtTelefono")
         self.productos = builder.get_object("productos")
-        generarFactura = builder.get_object("generarFactura")
+        generarFactura = builder.get_object("generaFactura")
 
         self.modeloProductos = Gtk.ListStore(str)
         self.listaProductos = []
         try:
-            baseDatos = dbapi2.connect("BaeDatos.dat")
+            baseDatos = dbapi2.connect("BaseDatos.dat")
             cursor = baseDatos.cursor()
 
             productos = cursor.execute("select nombre,precioUnidad from productos")
             for producto in productos:
                 self.listaProductos.append([producto[0], producto[1]])
-                self.modeloProductos.append(productos[0])
+                self.modeloProductos.append([producto[0]])
 
         except (dbapi2.DatabaseError):
             print("ERRORO ENE LA BASE DE DATOS")
@@ -50,7 +50,7 @@ class CrearFactura(Gtk.Window):
         self.cmbProductos.add_attribute(celdaCombo,"text",0)
         self.txtcantidad = Gtk.Entry()
         btnAñadir = Gtk.Button(label="+")
-        btnAñadir.connect("click", self.on_btnAñadir_clicked)
+        btnAñadir.connect("clicked", self.on_btnAñadir_clicked)
         self.cajaProductos.pack_start(self.cmbProductos, True, True, 0)
         self.cajaProductos.pack_start(self.txtcantidad, True, True, 0)
         self.cajaProductos.pack_start(btnAñadir, True, True, 0)
@@ -111,54 +111,54 @@ class CrearFactura(Gtk.Window):
 
         self.ventana.show_all()
 
-        def on_btnVolver_clicked(self, boton):
+    def on_btnVolver_clicked(self, boton):
 
-            self.Main.show_all()
-            self.ventana.hide()
+        self.Main.show_all()
+        self.ventana.hide()
 
-        def on_btnAñadir_clicked(self, boton):
+    def on_btnAñadir_clicked(self, boton):
 
-            indiceProducto = self.cmbProductos.get_active_iter()
-            producto = self.cmbProductos.get_model()[indiceProducto][0]
-            cantidad = self.txtcantidad.get_text()
-            self.modelo.append([producto, int(cantidad)])
+        indiceProducto = self.cmbProductos.get_active_iter()
+        producto = self.cmbProductos.get_model()[indiceProducto][0]
+        cantidad = self.txtcantidad.get_text()
+        self.modelo.append([producto, int(cantidad)])
 
-        def on_btnGuardar_clicked(self, boton):
+    def on_btnGuardar_clicked(self, boton):
 
-            nombre = self.nombre.get_text()
-            direccion = self.direccion.get_text()
-            telefono = self.telefono.get_text()
-            if (nombre == "" or direccion == "" or telefono == ""):
-                print("No se han completado todos los campos")
-            else:
-                baseDatos = dbapi2.connect("BaseDeDatos.dat")
-                cursor = baseDatos.cursor()
-                cursorID = cursor.execute("SELECT idFactura FROM facturasClientes ORDER BY idFactura DESC LIMIT 1")
-                idNuevo = cursorID.fetchone()[0] + 1
-                insertarFactura = cursor.execute(
-                    "insert into facturasClientes values('" + str(
+        nombre = self.nombre.get_text()
+        direccion = self.direccion.get_text()
+        telefono = self.telefono.get_text()
+        if (nombre == "" or direccion == "" or telefono == ""):
+            print("No se han completado todos los campos")
+        else:
+            baseDatos = dbapi2.connect("BaseDatos.dat")
+            cursor = baseDatos.cursor()
+            cursorID = cursor.execute("SELECT idFactura FROM facturasClientes ORDER BY idFactura DESC LIMIT 1")
+            idNuevo = cursorID.fetchone()[0] + 1
+            insertarFactura = cursor.execute(
+                "insert into facturasClientes values('" + str(
                         idNuevo) + "','" + nombre + "','" + telefono + "','" + direccion +  "')")
-                baseDatos.commit()
-                print("DETALLES DE LA FACTURA AÑADIDOS CON EXITO")
-                fac = str(idNuevo) + " - " + nombre
-                self.facturas.append([fac])
+            baseDatos.commit()
+            print("DETALLES DE LA FACTURA AÑADIDOS CON EXITO")
+            fac = str(idNuevo) + " - " + nombre
+            self.facturas.append([fac])
 
-            for lista in self.modelo:
-                cursorIDProducto = cursor.execute("SELECT id FROM productos where nombre='" + lista[0] + "'")
-                idProducto = cursorIDProducto.fetchone()[0]
-                insertarFactura = cursor.execute(
-                    "insert into facturasInfo values('" + str(idNuevo) + "','" + idProducto + "','" + str(
+        for lista in self.modelo:
+            cursorIDProducto = cursor.execute("SELECT id FROM productos where nombre='" + lista[0] + "'")
+            idProducto = cursorIDProducto.fetchone()[0]
+            insertarFactura = cursor.execute(
+                "insert into facturasInfo values('" + str(idNuevo) + "','" + idProducto + "','" + str(
                         lista[1]) + "')")
-                baseDatos.commit()
-                print("INFO DE LA FACTURA AÑADIDA CON EXITO")
+            baseDatos.commit()
+            print("INFO DE LA FACTURA AÑADIDA CON EXITO")
 
-        def on_btnGenerarFactura_clicked(self, boton):
+    def on_btnGenerarFactura_clicked(self, boton):
 
-            indiceFactura = self.cmbFacturas.get_active_iter()
-            facturaSeleccionada = self.cmbFacturas.get_model()[indiceFactura][0]
-            factura = facturaSeleccionada.split(" - ")
-            idFactura = factura[0]
-            generarFactura(idFactura)
+        indiceFactura = self.cmbFacturas.get_active_iter()
+        facturaSeleccionada = self.cmbFacturas.get_model()[indiceFactura][0]
+        factura = facturaSeleccionada.split(" - ")
+        idFactura = factura[0]
+        generarFactura(idFactura)
 
 if __name__ == "__main__":
     CrearFactura()

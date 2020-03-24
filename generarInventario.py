@@ -27,7 +27,9 @@ class generarInventario():
             baseDatos.close()
 
         doc = SimpleDocTemplate("InformeInventario.pdf", pagesize= A4)
+
         guion = []
+
         taboa = Table(listaInventario, colWidths=90, rowHeights=30)
         taboa.setStyle(TableStyle([
                  ('TEXTCOLOR', (0, 0), (-1, 1), colors.darkgreen),
@@ -46,7 +48,8 @@ class generarInventario():
               ]))
         guion.append(taboa)
         guion.append(PageBreak)
+
         doc.build(guion)
 
-if __name__=="__main__" :
+if __name__== "__main__" :
     generarInventario()

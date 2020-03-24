@@ -3,12 +3,11 @@
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkWindow" id="Main">
-    <property name="name">Main</property>
     <property name="can_focus">False</property>
+    <property name="resizable">False</property>
     <signal name="destroy" handler="on_Main_destroy" swapped="no"/>
     <child>
-      <object class="GtkBox" id="mainContenedor">
-        <property name="name">mainContenedor</property>
+      <object class="GtkBox" id="Container">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
@@ -17,15 +16,14 @@
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkLabel">
+              <object class="GtkLabel" id="lblTitulo">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">ALIMENTACION LA OLÍVICA</property>
+                <property name="label" translatable="yes">TIENDA DE ALIMENTACION LA OLIVICA</property>
               </object>
               <packing>
                 <property name="left_attach">0</property>
                 <property name="top_attach">0</property>
-                <property name="width">2</property>
               </packing>
             </child>
           </object>
@@ -36,32 +34,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkGrid" id="gridInventario">
+          <object class="GtkBox" id="mainBox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
             <child>
-              <object class="GtkButton" id="btnInventario">
-                <property name="label" translatable="yes">Inventario</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_btnInventario_clicked" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="top_attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="lblInventario">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Inventario de la tienda:    </property>
-              </object>
-              <packing>
-                <property name="left_attach">0</property>
-                <property name="top_attach">0</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -71,14 +49,16 @@
           </packing>
         </child>
         <child>
-          <object class="GtkGrid" id="gridFactura">
+          <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkLabel" id="lblFactura">
+              <object class="GtkButton" id="btnVolver">
+                <property name="label" translatable="yes">VOLVER</property>
                 <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Factura de la tienda:           </property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_btnVolver_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">0</property>
@@ -86,12 +66,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="btnFactura">
-                <property name="label" translatable="yes">Generado de Facturas</property>
+              <object class="GtkButton" id="btnSalir">
+                <property name="label" translatable="yes">SALIR</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
-                <signal name="clicked" handler="on_btnFactura_clicked" swapped="no"/>
+                <signal name="clicked" handler="on_btnSalir_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -103,21 +83,6 @@
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkButton" id="btnSalir">
-            <property name="label" translatable="yes">Salir</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="on_btnSalir_clicked" swapped="no"/>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="padding">20</property>
-            <property name="position">3</property>
           </packing>
         </child>
       </object>
