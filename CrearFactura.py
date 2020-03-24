@@ -1,6 +1,6 @@
 import gi
-
 from generarFactura import generarFactura
+
 
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
