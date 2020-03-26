@@ -1,0 +1,8 @@
+README.md
+setup.py
+Iago_Fernandez_Blanco.egg-info/PKG-INFO
+Iago_Fernandez_Blanco.egg-info/SOURCES.txt
+Iago_Fernandez_Blanco.egg-info/dependency_links.txt
+Iago_Fernandez_Blanco.egg-info/top_level.txt
+packaging/__init__.py
+packaging/example_pkg/__init__.py
